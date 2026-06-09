@@ -8,6 +8,9 @@ from tkinter import ttk
 from .keymap import KEYMAP
 from .midi_output import MidiOutput
 
+# Maximum semitone offset in the keymap — used to bound octave shifting
+MAX_KEY_OFFSET = max(KEYMAP.values())
+
 # Piano visual constants
 WHITE_KEY_WIDTH = 32
 WHITE_KEY_HEIGHT = 140
@@ -306,7 +309,7 @@ class QwertyMidiApp:
 
     def _octave_up(self) -> None:
         """Shift base note up one octave."""
-        if self.base_note < 108:
+        if self.base_note + 12 + MAX_KEY_OFFSET <= 127:
             self._release_all()
             self.base_note += 12
             self._update_octave_display()
